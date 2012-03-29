@@ -12,17 +12,22 @@ This module provides drop-in exception handling for Kohana. Any uncaught excepti
 
 You can install this module by either cloning:
 
-    $ git clone git://github.com/gevans/kohana-airbrake modules/airbrake
+```bash
+git clone git://github.com/gevans/kohana-airbrake modules/airbrake
+```
 
 Adding as a submodule:
 
-    $ git submodule add git://github.com/gevans/kohana-airbrake modules/airbrake
+```bash
+git submodule add git://github.com/gevans/kohana-airbrake modules/airbrake
+```
 
 Or, downloading an [archive of the repository](https://github.com/airbrake/kohana-airbrake/downloads).
 
 After that, you can enable Airbrake in your application's `bootstrap.php` by adding the following line to your modules definition:
 
 ```php
+<?php
 Kohana::modules(array(
     'airbrake' => MODPATH.'airbrake', // Airbrake exception handling and notifications
     // ...
