@@ -8,33 +8,15 @@
 
 This module provides drop-in exception handling for Kohana. Any uncaught exceptions encountered will be POSTed to the Airbrake server specified in your environment along with relevant data (`$_SERVER`, request params, backtrace, etc.).
 
-Airbrake features:
-
-* GitHub aware - In Airbrake, you can link code in your backtraces to the corresponding locations on GitHub.
-
-* RSS - You can subscribe to an RSS feed of error activity on Airbrake
-
-* Dupe detection - Rather than an email for every error, duplicate errors will be sent only once
-
-* SSL secure - With paid plans, notifications can be sent over SSL to keep your data completely private.
-
-* Experimental [support for Javascript](http://help.airbrake.io/kb/troubleshooting-2/javascript-notifier)
-
-More salesy goodness can be seen on the [official Airbrake website](http://airbrake.io).
-
 ## Installation
 
 You can install this module by either cloning:
 
-```bash
-git clone git://github.com/gevans/kohana-airbrake modules/airbrake
-```
+    $ git clone git://github.com/gevans/kohana-airbrake modules/airbrake
 
 Adding as a submodule:
 
-```bash
-git submodule add git://github.com/gevans/kohana-airbrake modules/airbrake
-```
+    $ git submodule add git://github.com/gevans/kohana-airbrake modules/airbrake
 
 Or, downloading an [archive of the repository](https://github.com/airbrake/kohana-airbrake/downloads).
 
