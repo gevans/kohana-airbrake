@@ -48,6 +48,42 @@ Kohana::modules(array(
 
 * Enjoy super-awesome-ultra-efficient notifications and exception handling.
 
+## Usage
+
+For the most part, Airbrake works for itself. Any uncaught exceptions will automatically be sent to the Airbrake server. You can, however, trigger notifications manually using `Airbrake::notify()`.
+
+### Filtering
+
+Keeping your users' data secure is important. You can specify which form fields you wish to have removed from reports by adding fields to the `params_filters` array in the configuration. Before sending a report, the parameters will be filtered, so:
+
+```php
+<?php
+array('password' => 'super secret!');
+```
+
+Becomes:
+
+```php
+<?php
+array('password' => '[FILTERED]');
+```
+
+### Experimental Javascript Support
+
+> Airbrake has the ability to catch Javascript errors that occur in browsers viewing HTML pages from your web application.
+
+You can enable the JS notifier in your page layout, within the `head` section:
+
+```php
+<html>
+  <head>
+    <!-- ... -->
+    <?= Airbrake::javascript_notifier() ?>
+    <!-- ... -->
+```
+
+This will insert a snippet of code to load the Airbrake Javascript notifier and set your API key and other settings to begin logging your uncaught exceptions. You can find more information in the knowledge base entry for the [Javascript Notifier](http://help.airbrake.io/kb/troubleshooting-2/javascript-notifier).
+
 ## More Information
 
 The module's classes are well documented and should satisfy you for most of your hacking. Unfortunately, there are no unit tests at this time, though I will reward you with many Internet points for making a pull request with improvements.
