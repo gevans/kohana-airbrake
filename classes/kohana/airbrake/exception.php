@@ -30,8 +30,11 @@ class Kohana_Airbrake_Exception extends Kohana_Exception {
 			Kohana::$log->add(Log::ERROR, Kohana_Exception::text($e));
 		}
 
-		// Pass the exception to the previously defined exception handler
-		call_user_func(Airbrake_Exception::$previous_exception_handler, $exception);
+		if (is_callable(Airbrake_Exception::$previous_exception_handler))
+		{
+			// Pass the exception to the previously defined exception handler
+			call_user_func(Airbrake_Exception::$previous_exception_handler, $exception);
+		}
 	}
 
 }
