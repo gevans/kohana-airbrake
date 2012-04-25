@@ -90,7 +90,9 @@ class Kohana_Airbrake_Config {
 	/**
 	 * @var  array  A list of environments in which notifications should not be sent
 	 */
-	public $development_environments = array('development', 'testing');
+	public $development_environments = array(
+		'development', 'testing',
+	);
 
 	/**
 	 * @var  boolean  `TRUE` if you want to check for production errors matching development errors, `FALSE` otherwise
@@ -136,14 +138,14 @@ class Kohana_Airbrake_Config {
 	 * @var  array  Default filtered environment variables
 	 */
 	public static $default_cgi_data_filters = array(
-		'DATABASE_URL',
+		'DATABASE_URL', 'HTTP_AUTHORIZATION', 'PHP_AUTH_USER', 'PHP_AUTH_PW',
 	);
 
 	/**
 	 * @var  array  Default filtered parameters
 	 */
 	public static $default_params_filters = array(
-		'password', 'password_confirmation'
+		'password', 'password_confirmation',
 	);
 
 	/**
@@ -155,7 +157,7 @@ class Kohana_Airbrake_Config {
 	 * @var  array  Default ignored classes
 	 */
 	public static $default_ignore = array(
-		'HTTP_Exception_404'
+		'HTTP_Exception_404',
 	);
 
 	/**
