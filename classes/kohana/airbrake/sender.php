@@ -136,7 +136,7 @@ class Kohana_Airbrake_Sender {
 			return FALSE;
 		}
 
-		if ($response->status() === 200)
+		if (preg_match('/^2\d{2}$/', $response->status()))
 		{
 			$this->log(Log::INFO, 'Success: Sent notification', $response->body());
 
@@ -201,6 +201,7 @@ class Kohana_Airbrake_Sender {
 			$options = array(
 				CURLOPT_CONNECTTIMEOUT => $this->http_open_timeout,
 				CURLOPT_TIMEOUT        => $this->http_read_timeout,
+				CURLOPT_USERAGENT      => $this->user_agent(),
 			);
 
 			if ($this->secure)
@@ -221,12 +222,7 @@ class Kohana_Airbrake_Sender {
 				}
 			}
 
-			$params = array(
-				'options'    => $options,
-				'user_agent' => $this->user_agent(),
-			);
-
-			return Request_Client_External::factory($params, 'Request_Client_Curl');
+			return Request_Client_External::factory(array('options' => $options), 'Request_Client_Curl');
 		}
 		catch (Exception $e)
 		{
@@ -237,7 +233,7 @@ class Kohana_Airbrake_Sender {
 		}
 	}
 
-	public function user_agent()
+	protected function user_agent()
 	{
 		return Airbrake::NOTIFIER_NAME.' '.Airbrake::VERSION.' - '.Airbrake::NOTIFIER_URL;
 	}
