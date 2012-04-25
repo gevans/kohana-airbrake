@@ -36,7 +36,7 @@ class Kohana_Airbrake_Sender {
 	/**
 	 * @var  string  The password to use hwen logging into your proxy server (if using a proxy)
 	 */
-	protected $porxy_pass;
+	protected $proxy_pass;
 
 	/**
 	 * @var  string  The HTTP protocol to use (`https` or `http`)
