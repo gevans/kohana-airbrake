@@ -27,8 +27,6 @@ class Kohana_Airbrake_Filter {
 			return $data;
 		}
 
-		die(Debug::vars($callbacks, $data));
-
 		foreach ($callbacks as $callback)
 		{
 			$data = ($recursive) ? Arr::map($callback, $data) : array_map($callback, $data);
