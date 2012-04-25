@@ -84,14 +84,14 @@ class Kohana_Airbrake {
 	 *
 	 * @return  string  Airbrake embed HTML
 	 */
-	public static function javascript_notifier()
+	public static function javascript_notifier(array $options = array())
 	{
 		if ( ! Airbrake::$config->is_public())
 		{
 			return;
 		}
 
-		$options = array(
+		$default_options = array(
 			'host'            => Airbrake::$config->host,
 			'api_key'         => Airbrake::$config->api_key,
 			'environment'     => Airbrake::$config->environment_name,
@@ -100,7 +100,7 @@ class Kohana_Airbrake {
 			'url'             => URL::site(Request::$current->detect_uri(), Request::$current).URL::query(),
 		);
 
-		return View::factory('airbrake/javascript_notifier', $options)->render();
+		return View::factory('airbrake/javascript_notifier', Arr::merge($default_options, $options))->render();
 	}
 
 	protected static function send_notice(Airbrake_Notice $notice)
