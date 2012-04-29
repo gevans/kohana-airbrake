@@ -13,9 +13,9 @@ class Kohana_Airbrake_Config {
 	public $api_key;
 
 	/**
-	 * @var  string  The host to connect to (defaults to `airbrake.io`)
+	 * @var  string  The host to connect to (defaults to `api.airbrake.io`)
 	 */
-	public $host = 'airbrake.io';
+	public $host = 'api.airbrake.io';
 
 	/**
 	 * @var  integer  The port on which your Airbrake server runs (defaults to `443` for secure connections, `80` for insecure connections)
