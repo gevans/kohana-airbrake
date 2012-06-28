@@ -169,51 +169,6 @@ class Kohana_Airbrake_Notice {
 		return FALSE;
 	}
 
-	public function find_parameters(Request $request)
-	{
-		$parameters = array();
-
-		if ($get = $request->query() AND ! empty($get))
-		{
-			$parameters = Arr::merge($parameters, $get);
-		}
-
-		if ($params = $request->param() AND ! empty($params))
-		{
-			$parameters = Arr::merge($parameters, $params);
-		}
-
-		if ($post = $request->post() AND ! empty($post))
-		{
-			$parameters = Arr::merge($parameters, $post);
-		}
-
-		$this->parameters = $parameters;
-	}
-
-	public function find_cgi_data(Request $request)
-	{
-		$cgi_data = array();
-
-		if (isset($_ENV) AND ! empty($_ENV))
-		{
-			$cgi_data = Arr::merge($cgi_data, $_ENV);
-		}
-
-		if (isset($_SERVER) AND ! empty($_SERVER))
-		{
-			$cgi_data = Arr::merge($cgi_data, $_SERVER);
-		}
-
-		$this->cgi_data = $cgi_data;
-	}
-
-	public function find_session_data()
-	{
-		$this->session_data = (isset($_SESSION) AND ! empty($_SESSION)) ?
-			$_SESSION : Session::instance()->as_array();
-	}
-
 	public function as_xml()
 	{
 		// Create document with API version and API key
@@ -292,7 +247,52 @@ class Kohana_Airbrake_Notice {
 		}
 	}
 
-	public function xml_vars_for(SimpleXMLElement $element, $vars)
+	protected function find_parameters(Request $request)
+	{
+		$parameters = array();
+
+		if ($get = $request->query() AND ! empty($get))
+		{
+			$parameters = Arr::merge($parameters, $get);
+		}
+
+		if ($params = $request->param() AND ! empty($params))
+		{
+			$parameters = Arr::merge($parameters, $params);
+		}
+
+		if ($post = $request->post() AND ! empty($post))
+		{
+			$parameters = Arr::merge($parameters, $post);
+		}
+
+		$this->parameters = $parameters;
+	}
+
+	protected function find_cgi_data(Request $request)
+	{
+		$cgi_data = array();
+
+		if (isset($_ENV) AND ! empty($_ENV))
+		{
+			$cgi_data = Arr::merge($cgi_data, $_ENV);
+		}
+
+		if (isset($_SERVER) AND ! empty($_SERVER))
+		{
+			$cgi_data = Arr::merge($cgi_data, $_SERVER);
+		}
+
+		$this->cgi_data = $cgi_data;
+	}
+
+	protected function find_session_data()
+	{
+		$this->session_data = (isset($_SESSION) AND ! empty($_SESSION)) ?
+			$_SESSION : Session::instance()->as_array();
+	}
+
+	protected function xml_vars_for(SimpleXMLElement $element, $vars)
 	{
 		// Filter variables and convert special characters to HTML entities
 		$vars = Airbrake_Filter::sanitize_data($vars);
@@ -327,7 +327,7 @@ class Kohana_Airbrake_Notice {
 		}
 	}
 
-	public function local_hostname()
+	protected function local_hostname()
 	{
 		if (version_compare(PHP_VERSION, '5.3.0') >= 0)
 		{

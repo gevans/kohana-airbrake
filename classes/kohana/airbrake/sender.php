@@ -96,11 +96,6 @@ class Kohana_Airbrake_Sender {
 		}
 	}
 
-	public function detect_protocol()
-	{
-		$this->protocol = ($this->secure) ? 'https' : 'http';
-	}
-
 	public function __get($attr)
 	{
 		if (property_exists($this, $attr))
@@ -168,6 +163,11 @@ class Kohana_Airbrake_Sender {
 
 		// Something broke. :(
 		return FALSE;
+	}
+
+	protected function detect_protocol()
+	{
+		$this->protocol = ($this->secure) ? 'https' : 'http';
 	}
 
 	protected function url()

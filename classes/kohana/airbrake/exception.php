@@ -4,37 +4,58 @@
  *
  * @package  Airbrake
  */
-class Kohana_Airbrake_Exception extends Kohana_Exception {
+class Kohana_Airbrake_Exception extends Kohana_Kohana_Exception {
 
 	/**
-	 * @var  callback  Previously defined exception handler
-	 */
-	public static $previous_exception_handler;
-
-	/**
-	 * Sends exceptions to Airbrake and passes exceptions to the previously
-	 * defined exception handler (e.g. [Kohana_Exception::handler]).
+	 * Exception handler, sends exceptions to Airbrake and passes exceptions to
+	 * [Kohana_Kohana_Exception::_handler] if [Kohana::$errors] is `TRUE`.
 	 *
-	 * @param   Exception  $exception  Exception object
-	 * @return  void
+	 * @uses    Airbrake::notify_or_ignore
+	 * @param   Exception  $e
+	 * @return  boolean
 	 */
-	public static function handler(Exception $exception)
+	public static function _handler(Exception $e)
 	{
 		try
 		{
-			Airbrake::notify_or_ignore($exception);
+			// Attempt to send this exception to Airbrake.
+			Airbrake::notify_or_ignore($e);
+		}
+		catch (Exception $e2)
+		{
+			// It would seem we are in a serious pickle. Now we have *two*
+			// exceptions to log.
+			Kohana_Exception::log($e2);
+		}
+
+		// Pass the exception back to the default handler and return the
+		// response if Kohana is configured for error handling.
+		if (Kohana::$errors)
+		{
+			return parent::_handler($e);
+		}
+
+		try
+		{
+			// Otherwise, return an empty error response.
+			// TODO: allow customization for error views and content types
+			$response = Response::factory();
+
+			// Set the response status
+			$response->status(($e instanceof HTTP_Exception) ? $e->getCode() : 500);
+
+			// Set the response headers
+			$response->headers('Content-Type', Kohana_Exception::$error_view_content_type.'; charset='.Kohana::$charset);
 		}
 		catch (Exception $e)
 		{
-			// Oddness, something broke...
-			Kohana::$log->add(Log::ERROR, Kohana_Exception::text($e));
+			// This sucks...
+			$response = Response::factory();
+			$response->status(500);
+			$response->headers('Content-Type', 'text/plain');
 		}
 
-		if (is_callable(Airbrake_Exception::$previous_exception_handler))
-		{
-			// Pass the exception to the previously defined exception handler
-			call_user_func(Airbrake_Exception::$previous_exception_handler, $exception);
-		}
+		return $response;
 	}
 
 }

@@ -41,10 +41,6 @@ class Kohana_Airbrake {
 
 		// Retrieve configuration
 		Airbrake::$config = new Airbrake_Config(Kohana::$config->load('airbrake'));
-
-		// Register Airbrake exception handler, storing the previous exception handler,
-		// allowing exceptions to be passed to previous handlers.
-		Airbrake_Exception::$previous_exception_handler = set_exception_handler(array('Airbrake_Exception', 'handler'));
 	}
 
 	public static function sender(array $options = array())
