@@ -228,7 +228,7 @@ class Kohana_Airbrake_Sender {
 		}
 		catch (Exception $e)
 		{
-			$this->log(Logger::ERROR, '[Airbrake_Sender::setup_http_client] Failure initializing the Request client. Error: [ '.$e->getCode().' ] '.$e->getMessage());
+			$this->log(Log::ERROR, '[Airbrake_Sender::setup_http_client] Failure initializing the Request client. Error: [ '.$e->getCode().' ] '.$e->getMessage());
 
 			// Rethrow exception
 			throw $e;
