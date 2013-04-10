@@ -206,8 +206,10 @@ class Kohana_Airbrake_Sender {
 
 			if ($this->secure)
 			{
-				$options[CURL_OPT_VERIFYHOST]    = TRUE;
-				$options[CURLOPT_SSL_VERIFYPEER] = TRUE;
+				// Set to: 0 - no verification
+				//         1 - check the existence of a common name in the SSL certificate
+				//         2 - check the existence of a common name and also verify that it matches the hostname provided (default)
+				$options[CURLOPT_SSL_VERIFYPEER] = 2;
 			}
 
 			if ($this->proxy_host)
